@@ -69,6 +69,9 @@ int* merge(int array_1[], int array_2[], int length_1, int length_2) {
 			sizeof(int) * (length_2-index_2+1));
 	}
 
+	free(array_1);
+	free(array_2);
+	
 	return merged_array;
 }
 
