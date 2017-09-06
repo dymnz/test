@@ -116,7 +116,7 @@ void delete(struct DataNode* hash_table[SPACE], struct DataNode* data_node) {
 		// p is the address of a
 		// tp is the address of p
 		// *tp is the content of p, the address of a
-		// node_ptr is the address an DataNode*
+		// node_ptr is the address of an DataNode*
 		// *node_ptr is the address of an DataNode
 
 		// The next line changes the address of the current node to the next node, 
