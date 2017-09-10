@@ -3,7 +3,7 @@
 
 //#define VERBOSE
 
-#define MAX_NODE 7
+#define MAX_NODE 10
 #define CONNECTED 1
 #define NOT_CONNECTED 0
 #define VISITED 1
@@ -189,6 +189,17 @@ int main()
 	new_connection(&graph, 'c', 'd');
 	new_connection(&graph, 'c', 'f');
 	new_connection(&graph, 'f', 'g');
+	print_connection(&graph);
+
+	DFS(&graph);
+
+
+	// Test dynamic node adding
+	new_node(&graph, 'h');
+	new_node(&graph, 'i');
+
+	new_connection(&graph, 'g', 'h');
+	new_connection(&graph, 'd', 'i');
 	print_connection(&graph);
 
 	DFS(&graph);
