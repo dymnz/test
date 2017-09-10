@@ -59,11 +59,14 @@ int new_node(struct GraphStruct* graph, char label) {
 		sizeof(int*) * (graph->length+1));
 	graph->connection[graph->length] = NULL;
 
+	// Expand the old arrays
 	for (int i = 0; i < graph->length+1; ++i) {
 		graph->connection[i] = (int *) realloc(graph->connection[i],
 			sizeof(int) * (graph->length+1));
 		graph->connection[i][graph->length] = NOT_CONNECTED;		
 	}
+
+	// Reset the new array
 	for (int i = 0; i < graph->length+1; ++i) {
 		if (graph->connection[i][graph->length] == CONNECTED)
 			graph->connection[graph->length][i] = CONNECTED;
