@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define VERBOSE
+
 void print_array(int array[], int);
 int* merge_sort(int array[], int);
 int* merge(int array_1[], int array_2[], int, int);
@@ -15,8 +17,8 @@ int main() {
 	print_array(array, array_length);
 
 	// Sort
-	printf("Merge sort:\n");
 	int* sorted_array = merge_sort(array, array_length);
+	printf("Sorted:\n");
 	print_array(sorted_array, array_length);
 
 	return 0;
@@ -24,8 +26,17 @@ int main() {
 
 
 int* merge_sort(int array[], int array_length) {
-	if (array_length == 1) return array;
+	#ifdef VERBOSE
+		printf("merge sort: ");
+		print_array(array, array_length);
+	#endif
 
+	if (array_length == 1) {
+		#ifdef VERBOSE
+		printf("--Length reached\n");
+		#endif 
+		return array;
+	}
 	int front_length = array_length / 2;
 	int back_length = array_length - front_length;
 
@@ -35,7 +46,13 @@ int* merge_sort(int array[], int array_length) {
 	memcpy(front_array, array, sizeof(int)*front_length );
 	memcpy(back_array, array+front_length, sizeof(int)*back_length );
 
+	#ifdef VERBOSE
+	printf("Front split: ");
+	#endif 
 	front_array = merge_sort(front_array, front_length);
+	#ifdef VERBOSE
+	printf("Back split: ");
+	#endif 
 	back_array = merge_sort(back_array, back_length);
 
 	return merge(front_array, back_array, front_length, back_length);
@@ -69,9 +86,9 @@ int* merge(int array_1[], int array_2[], int length_1, int length_2) {
 			sizeof(int) * (length_2-index_2+1));
 	}
 
-	free(array_1);
+	free(array_1); 
 	free(array_2);
-	
+
 	return merged_array;
 }
 
