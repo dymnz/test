@@ -1,7 +1,6 @@
 // Compile with -lm flag b/c of math.h: gcc ./tsp.c -o tsp -lm
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 #define VERBOSE
@@ -18,26 +17,26 @@ struct City {
 	BOOL visited;
 };
 
-struct Edge {
+struct Vertex {
 	int index_1;
 	int index_2;
 	double dist;
 };
 
-void swap(struct Edge* v1, struct Edge* v2) {
-	struct Edge v_temp = *v1;
-	*v1 = *v2;
-	*v2 = v_temp;
+void swap(struct Vertex* v1, struct Vertex* v2) {
+	struct Vertex* v_temp = v1;
+	v1 = v2;
+	v2 = v_temp;
 }
 
-void bubble_sort(struct Edge* edge_list, int length) {
+void bubble_sort(struct Vertex* vertex_list[], int length) {
 	int i, j, i_temp;
-	struct Edge* v_temp;
+	struct Vertex* v_temp;
 
 	for (i = 0; i < length-1; ++i) {
 		for (j = 0; j < length-i-1; ++j) {
-			if (edge_list[j+1].dist < edge_list[j].dist) {
-				swap(&(edge_list[j+1]), &(edge_list[j]));
+			if (vertex_list[j+1].dist < vertex_list[j].dist) {
+				swap(&(vertex_list[j+1]), &(vertex_list[j]));
 			}
 		}
 	}
@@ -55,8 +54,8 @@ double* find_distance(struct City* city_list, int num_city, int center_index) {
 	int i;
 	for (i = 0; i < num_city; ++i) {
 		dist_list[i] = distance(
-			city_list[center_index].x, 
-			city_list[center_index].y,
+			current_city[center_index].x, 
+			current_city[center_index].y,
 			city_list[i].x, 
 			city_list[i].y);
 	}
@@ -66,66 +65,26 @@ double* find_distance(struct City* city_list, int num_city, int center_index) {
 
 double TSP(struct City* city_list, int num_city) {
 	int i, j;
-	int num_edge = num_city * num_city;
-	
-	struct Edge* edge_list = (struct Edge*) malloc(sizeof(struct Edge) * num_edge);	
-	struct Edge** sel_edge_list = (struct Edge*) malloc(sizeof(struct Edge*));
-
-	int* order_list = (int*) malloc(sizeof(int) * num_city);	
-	int* answer_list = (int*) malloc(sizeof(int) * num_city);
-
-	memset(order, 0, sizeof(int) * num_city);
+	struct Vertex* vertex_list = (struct Vertex*) 
+		malloc(sizeof(struct Vertex) * num_city * num_city);
+	double* dist_list;
 
 	// Find the vertex of each pair
-	double* dist_list;
 	for (i = 0; i < num_city; ++i) {
 		dist_list = find_distance(city_list, num_city, i);
 		for (j = 0; j < num_city; ++j) {
-			edge_list[i*num_city+j].index_1 = i; 
-			edge_list[i*num_city+j].index_2 = j;
-			edge_list[i*num_city+j].dist = dist_list[j];
+			vertex_list[i*num_city+j].index_1 = i; 
+			vertex_list[i*num_city+j].index_2 = j;
+			vertex_list[i*num_city+j].dist = dist_list[j];
 		}
 	}
 
-	// Sort the edge_list
-	bubble_sort(edge_list, num_city);
+	// Sort the vertex_list
+	bubble_sort(vertex_list, num_city);
 
-	#ifdef DEBUG
 	for (i = 0; i < num_city; ++i)
 		for (j = 0; j < num_city; ++j)
-			printf("%3d %3d: %3lf\n", 
-				edge_list[i*num_city+j].index_1,
-				edge_list[i*num_city+j].index_2,
-				edge_list[i*num_city+j].dist);
-	#endif
-
-	int edge_index;
-	int edge_count = 0;
-	struct Edge* current_edge = edge_list[0];
-	
-	for (int i = 0; i < num_edge; ++i){
-		sel_edge_list[edge_count] = current_edge;
-
-		if (edge_count[edge_list[i].index_1] <= 2 &&
-			edge_count[edge_list[i].index_2] <= 2 &&
-			)
-	}
-
-	while (edge_count < num_city) {
-		
-		++edge_count;
-
-		// Check vertex degree
-
-		
-		
-
-
-		// Check edge loop
-
-	}
-
-
+			printf("%3d %3d: %3lf", vertex_list)
 }
 
 
@@ -150,7 +109,7 @@ int main(int argc, char const *argv[])
   		&(temp_city.y)) != EOF) 
   	{
   		printf("%3d %3d %3d\n", temp_city.index, temp_city.x, temp_city.y);
-  		city_list[index].index = temp_city.index - 1;
+  		city_list[index].index = temp_city.index;
   		city_list[index].x = temp_city.x;
   		city_list[index].y = temp_city.y; 		
   		city_list[index].visited = FALSE;
