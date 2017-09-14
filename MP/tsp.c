@@ -172,7 +172,7 @@ double TSP(struct City *city_list, int num_city) {
 			}
 			// City_1 end to City_2 head
 			city_1->left = city_2;
-			city_2->right = city_1;						
+			city_2->right = city_1;
 		} else if (city_1->left == NULL && city_2->left == NULL) {
 			// City_1 end to City_2 end	
 			reverse_link(city_1, RIGHT);
@@ -203,7 +203,7 @@ double TSP(struct City *city_list, int num_city) {
 	}
 	#endif
 
-	// Sum distance of edges
+	// Sum length of edges
 	double dist_sum = 0.0;
 	for (i = 0; i < num_city; ++i) {
 		dist_sum += sel_edge_list[i]->dist;
