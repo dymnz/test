@@ -21,12 +21,12 @@ struct Vertex {
 	int index_1;
 	int index_2;
 	double dist;
-};
+}
 
 void swap(struct Vertex* v1, struct Vertex* v2) {
-	struct Vertex* v_temp = v1;
-	v1 = v2;
-	v2 = v_temp;
+	struct Vertex* v_temp = *v1;
+	*v1 = *v2;
+	*v2 = v_temp;
 }
 
 void bubble_sort(struct Vertex* vertex_list[], int length) {
