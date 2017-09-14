@@ -44,7 +44,6 @@ void swap(struct Edge *v1, struct Edge *v2) {
 
 void bubble_sort(struct Edge *edge_list, int length) {
 	int i, j, i_temp;
-	struct Edge *v_temp;
 
 	for (i = 0; i < length-1; ++i) {
 		for (j = 0; j < length-i-1; ++j) {
@@ -155,6 +154,12 @@ double TSP(struct City *city_list, int num_city) {
 		printf("root_1: %3d \t root_2: %3d\n", root_1->index, root_2->index);
 		#endif
 
+		// Connect the two city_link
+		// Here we don't try to find the head or tail of the city
+		// and connect them head to tail,
+		// but instead determine if the two city is at the head or tail,
+		// then connect them in different way.
+
 		if (city_1->right == NULL) {			
 			// City_2 head to City_1 head	
 			if (city_2->left != NULL) {
@@ -211,7 +216,7 @@ double TSP(struct City *city_list, int num_city) {
 	printf("%lf\n", dist_sum);
 	fprintf(pOutput, "%lf\n", dist_sum);
 
-	// Print from the direction of the smaller neighbot
+	// Print from the direction of the smaller neighbor
 	struct City* tracer = &(city_list[0]);
 	DIRECTION print_dir = RIGHT;
 	if (tracer->right->index > tracer->left->index)
